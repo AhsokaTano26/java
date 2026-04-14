@@ -32,9 +32,13 @@ public class StudentRecordServlet extends HttpServlet {
 
             String idText = req.getParameter("editId");
             if (idText != null && !idText.trim().isEmpty()) {
-                int id = Integer.parseInt(idText);
-                StudentRecord editRecord = recordDao.findById(id);
-                req.setAttribute("editRecord", editRecord);
+                try {
+                    int id = Integer.parseInt(idText);
+                    StudentRecord editRecord = recordDao.findById(id);
+                    req.setAttribute("editRecord", editRecord);
+                } catch (NumberFormatException e) {
+                    req.getSession().setAttribute("flashMessage", "参数 editId 必须是整数");
+                }
             }
 
             HttpSession session = req.getSession();

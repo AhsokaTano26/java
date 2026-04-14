@@ -9,6 +9,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public final class PasswordUtil {
+    // 迭代次数需要随硬件能力提升逐步提高，当前值用于平衡性能与安全。
     private static final int ITERATIONS = 120000;
     private static final int KEY_LENGTH = 256;
     private static final int SALT_LENGTH = 16;
