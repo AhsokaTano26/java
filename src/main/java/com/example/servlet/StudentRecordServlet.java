@@ -37,7 +37,7 @@ public class StudentRecordServlet extends HttpServlet {
                     StudentRecord editRecord = recordDao.findById(id);
                     req.setAttribute("editRecord", editRecord);
                 } catch (NumberFormatException e) {
-                    req.getSession().setAttribute("flashMessage", "参数 editId 必须是整数");
+                    req.setAttribute("flashMessage", "参数 editId 必须是整数");
                 }
             }
 
