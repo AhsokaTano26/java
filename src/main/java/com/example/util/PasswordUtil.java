@@ -10,6 +10,8 @@ import javax.crypto.spec.PBEKeySpec;
 
 public final class PasswordUtil {
     // 迭代次数需要随硬件能力提升逐步提高，当前值用于平衡性能与安全。
+    private static final int MIN_ITERATIONS = 10000;
+    private static final int MAX_ITERATIONS = 1000000;
     private static final int ITERATIONS = 120000;
     private static final int KEY_LENGTH = 256;
     private static final int SALT_LENGTH = 16;
@@ -35,6 +37,9 @@ public final class PasswordUtil {
         }
 
         int iterations = Integer.parseInt(parts[0]);
+        if (iterations < MIN_ITERATIONS || iterations > MAX_ITERATIONS) {
+            return false;
+        }
         byte[] salt = Base64.getDecoder().decode(parts[1]);
         byte[] expected = Base64.getDecoder().decode(parts[2]);
         byte[] actual = pbkdf2(rawPassword.toCharArray(), salt, iterations, expected.length * 8);

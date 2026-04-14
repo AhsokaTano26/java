@@ -35,7 +35,11 @@ public class StudentRecordServlet extends HttpServlet {
                 try {
                     int id = Integer.parseInt(idText);
                     StudentRecord editRecord = recordDao.findById(id);
-                    req.setAttribute("editRecord", editRecord);
+                    if (editRecord != null) {
+                        req.setAttribute("editRecord", editRecord);
+                    } else {
+                        req.setAttribute("flashMessage", "未找到要编辑的记录");
+                    }
                 } catch (NumberFormatException e) {
                     req.setAttribute("flashMessage", "参数 editId 必须是整数");
                 }
