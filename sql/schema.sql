@@ -4,7 +4,7 @@ USE java_web_lab;
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS student_records (
@@ -14,8 +14,9 @@ CREATE TABLE IF NOT EXISTS student_records (
     major VARCHAR(100) NOT NULL
 );
 
+-- 默认管理员密码是 123456（已使用 PBKDF2 加盐哈希存储）
 INSERT INTO users(username, password) VALUES
-('admin', '123456')
+('admin', '120000$jyxNgKGyPE1eb3CBkqO0xQ==$myTuCZGvDAFpSSipH7vGFSjoT/30MxUQNvVybN3A7I4=')
 ON DUPLICATE KEY UPDATE password = VALUES(password);
 
 INSERT INTO student_records(name, age, major) VALUES

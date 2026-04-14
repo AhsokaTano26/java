@@ -16,7 +16,7 @@ public final class DbUtil {
                 throw new IllegalStateException("db.properties not found");
             }
             PROPS.load(in);
-            Class.forName(PROPS.getProperty("db.driver"));
+            Class.forName(readConfig("db.driver", "DB_DRIVER"));
         } catch (IOException | ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -27,9 +27,17 @@ public final class DbUtil {
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
-                PROPS.getProperty("db.url"),
-                PROPS.getProperty("db.username"),
-                PROPS.getProperty("db.password")
+                readConfig("db.url", "DB_URL"),
+                readConfig("db.username", "DB_USERNAME"),
+                readConfig("db.password", "DB_PASSWORD")
         );
+    }
+
+    private static String readConfig(String propertyKey, String envKey) {
+        String envValue = System.getenv(envKey);
+        if (envValue != null && !envValue.trim().isEmpty()) {
+            return envValue.trim();
+        }
+        return PROPS.getProperty(propertyKey);
     }
 }

@@ -19,14 +19,17 @@
    ```sql
    source /绝对路径/java/sql/schema.sql;
    ```
-3. 修改数据库连接配置文件：
-   - 文件：`src/main/resources/db.properties`
-   - 重点修改：`db.url`、`db.username`、`db.password`
+3. 配置数据库连接（优先使用环境变量）：
+   - `DB_URL`
+   - `DB_USERNAME`
+   - `DB_PASSWORD`
+   - `DB_DRIVER`（可选）
+4. 也可直接修改 `src/main/resources/db.properties`（示例值需替换）。
 
 ## 3. Java 数据库访问环境配置
 
 项目通过 Maven 引入 JDBC 驱动：
-- `mysql:mysql-connector-java:8.0.33`
+- `com.mysql:mysql-connector-j:8.4.0`
 
 数据库连接工具类：
 - `src/main/java/com/example/util/DbUtil.java`
@@ -50,6 +53,8 @@
 - 用户名：`admin`
 - 密码：`123456`
 
+> 用户密码在数据库中以 PBKDF2 加盐哈希形式存储，不以明文保存。
+
 登录后可对学生信息表进行：
 - 新增
 - 查询（列表展示）
@@ -61,5 +66,6 @@
 - `src/main/java/com/example/servlet`：登录、退出、CRUD 控制器
 - `src/main/java/com/example/dao`：数据库访问逻辑
 - `src/main/java/com/example/model`：实体类
+- `src/main/java/com/example/util`：数据库连接和密码安全工具
 - `src/main/webapp`：JSP 页面
 - `sql/schema.sql`：数据库脚本

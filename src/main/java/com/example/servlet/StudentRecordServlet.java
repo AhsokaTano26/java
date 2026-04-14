@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet("/records")
 public class StudentRecordServlet extends HttpServlet {
@@ -36,11 +37,19 @@ public class StudentRecordServlet extends HttpServlet {
                 req.setAttribute("editRecord", editRecord);
             }
 
-            Object flashMessage = req.getSession().getAttribute("flashMessage");
+            HttpSession session = req.getSession();
+            Object flashMessage = session.getAttribute("flashMessage");
             if (flashMessage != null) {
                 req.setAttribute("flashMessage", flashMessage);
-                req.getSession().removeAttribute("flashMessage");
+                session.removeAttribute("flashMessage");
             }
+
+            String csrfToken = (String) session.getAttribute("csrfToken");
+            if (csrfToken == null || csrfToken.trim().isEmpty()) {
+                csrfToken = UUID.randomUUID().toString();
+                session.setAttribute("csrfToken", csrfToken);
+            }
+            req.setAttribute("csrfToken", csrfToken);
 
             req.getRequestDispatcher("/records.jsp").forward(req, resp);
         } catch (SQLException e) {
@@ -55,6 +64,12 @@ public class StudentRecordServlet extends HttpServlet {
             return;
         }
 
+        if (!verifyCsrf(req)) {
+            setFlash(req.getSession(), "CSRF 校验失败，请刷新页面后重试");
+            resp.sendRedirect(req.getContextPath() + "/records");
+            return;
+        }
+
         req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
 
@@ -65,18 +80,18 @@ public class StudentRecordServlet extends HttpServlet {
                 setFlash(req.getSession(), "新增记录成功");
             } else if ("update".equals(action)) {
                 StudentRecord record = buildRecord(req);
-                record.setId(Integer.parseInt(req.getParameter("id")));
+                record.setId(parseRequiredInt(req, "id"));
                 recordDao.update(record);
                 setFlash(req.getSession(), "修改记录成功");
             } else if ("delete".equals(action)) {
-                int id = Integer.parseInt(req.getParameter("id"));
+                int id = parseRequiredInt(req, "id");
                 recordDao.delete(id);
                 setFlash(req.getSession(), "删除记录成功");
             } else {
                 setFlash(req.getSession(), "未知操作");
             }
-        } catch (NumberFormatException e) {
-            setFlash(req.getSession(), "参数格式错误，请检查输入");
+        } catch (IllegalArgumentException e) {
+            setFlash(req.getSession(), e.getMessage());
         } catch (SQLException e) {
             throw new ServletException("处理记录失败", e);
         }
@@ -87,9 +102,31 @@ public class StudentRecordServlet extends HttpServlet {
     private StudentRecord buildRecord(HttpServletRequest req) {
         StudentRecord record = new StudentRecord();
         record.setName(req.getParameter("name"));
-        record.setAge(Integer.parseInt(req.getParameter("age")));
+        record.setAge(parseRequiredInt(req, "age"));
         record.setMajor(req.getParameter("major"));
         return record;
+    }
+
+    private int parseRequiredInt(HttpServletRequest req, String field) {
+        String value = req.getParameter(field);
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("参数 " + field + " 不能为空");
+        }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("参数 " + field + " 必须是整数");
+        }
+    }
+
+    private boolean verifyCsrf(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+        if (session == null) {
+            return false;
+        }
+        String expected = (String) session.getAttribute("csrfToken");
+        String actual = req.getParameter("csrfToken");
+        return expected != null && expected.equals(actual);
     }
 
     private boolean isLoggedIn(HttpServletRequest req) {

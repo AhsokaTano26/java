@@ -30,12 +30,14 @@
 <%
     }
 
+    String csrfToken = (String) request.getAttribute("csrfToken");
     StudentRecord editRecord = (StudentRecord) request.getAttribute("editRecord");
     boolean editing = editRecord != null;
 %>
 
 <h3><%= editing ? "修改记录" : "新增记录" %></h3>
 <form method="post" action="<%= request.getContextPath() %>/records">
+    <input type="hidden" name="csrfToken" value="<%= h(csrfToken) %>" />
     <input type="hidden" name="action" value="<%= editing ? "update" : "add" %>" />
     <%
         if (editing) {
@@ -82,6 +84,7 @@
         <td>
             <a href="<%= request.getContextPath() %>/records?editId=<%= record.getId() %>">编辑</a>
             <form method="post" action="<%= request.getContextPath() %>/records" style="display:inline;">
+                <input type="hidden" name="csrfToken" value="<%= h(csrfToken) %>" />
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="<%= record.getId() %>" />
                 <button type="submit" onclick="return confirm('确认删除该记录？');">删除</button>

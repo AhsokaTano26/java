@@ -1,4 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%!
+    private String h(String s) {
+        if (s == null) {
+            return "";
+        }
+        return s.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;");
+    }
+%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -11,7 +22,7 @@
     Object error = request.getAttribute("error");
     if (error != null) {
 %>
-<p style="color:red;"><%= error %></p>
+<p style="color:red;"><%= h(error.toString()) %></p>
 <%
     }
 %>
