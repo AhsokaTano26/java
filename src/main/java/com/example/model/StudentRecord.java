@@ -2,9 +2,10 @@ package com.example.model;
 
 public class StudentRecord {
     private int id;
-    private String name;
-    private int age;
-    private String major;
+    private String content;
+    private String mood;
+    private String ownerUsername;
+    private String createdAt;
 
     public int getId() {
         return id;
@@ -14,27 +15,35 @@ public class StudentRecord {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getAge() {
-        return age;
+    public String getMood() {
+        return mood;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 
-    public String getMajor() {
-        return major;
+    public String getOwnerUsername() {
+        return ownerUsername;
     }
 
-    public void setMajor(String major) {
-        this.major = major;
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

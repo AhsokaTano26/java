@@ -1,25 +1,31 @@
-CREATE DATABASE IF NOT EXISTS java_web_lab DEFAULT CHARACTER SET utf8mb4;
-USE java_web_lab;
+PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS student_records (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    major VARCHAR(100) NOT NULL
+CREATE TABLE IF NOT EXISTS mood_notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    mood TEXT NOT NULL CHECK (mood IN ('calm', 'happy', 'sad', 'angry', 'anxious', 'tired')),
+    owner_username TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (owner_username) REFERENCES users(username) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_mood_notes_created_at_id
+ON mood_notes(created_at DESC, id DESC);
+
+CREATE INDEX IF NOT EXISTS idx_mood_notes_owner_username
+ON mood_notes(owner_username);
 
 -- 默认管理员密码是 123456（已使用 PBKDF2 加盐哈希存储）
-INSERT INTO users(username, password) VALUES
-('admin', '120000$jyxNgKGyPE1eb3CBkqO0xQ==$myTuCZGvDAFpSSipH7vGFSjoT/30MxUQNvVybN3A7I4=')
-ON DUPLICATE KEY UPDATE password = VALUES(password);
+INSERT OR IGNORE INTO users(username, password) VALUES
+('admin', '120000$jyxNgKGyPE1eb3CBkqO0xQ==$myTuCZGvDAFpSSipH7vGFSjoT/30MxUQNvVybN3A7I4=');
 
-INSERT INTO student_records(name, age, major) VALUES
-('张三', 20, '计算机科学'),
-('李四', 21, '软件工程'),
-('王五', 22, '信息管理');
+INSERT INTO mood_notes(content, mood, owner_username) VALUES
+('今天完成了一个棘手任务，松了一口气。', 'calm', 'admin'),
+('刚喝完咖啡，突然觉得一切都可以再试一次。', 'happy', 'admin'),
+('有点焦虑，但我在慢慢整理思绪。', 'anxious', 'admin');
