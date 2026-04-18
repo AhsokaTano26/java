@@ -220,7 +220,21 @@
             <%
                 if (records != null && !records.isEmpty()) {
                     for (StudentRecord note : records) {
-                        String moodClass = "note-" + HtmlEscapeUtil.escape(note.getMood());
+                        String mood = note.getMood();
+                        String moodClass;
+                        if ("happy".equals(mood)) {
+                            moodClass = "note-happy";
+                        } else if ("sad".equals(mood)) {
+                            moodClass = "note-sad";
+                        } else if ("angry".equals(mood)) {
+                            moodClass = "note-angry";
+                        } else if ("anxious".equals(mood)) {
+                            moodClass = "note-anxious";
+                        } else if ("tired".equals(mood)) {
+                            moodClass = "note-tired";
+                        } else {
+                            moodClass = "note-calm";
+                        }
                         boolean own = username != null && username.equals(note.getOwnerUsername());
             %>
             <article class="note <%= moodClass %>">
