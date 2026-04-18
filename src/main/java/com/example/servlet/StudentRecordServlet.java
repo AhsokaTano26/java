@@ -11,12 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @WebServlet("/records")
 public class StudentRecordServlet extends HttpServlet {
     private final StudentRecordDao recordDao = new StudentRecordDao();
+    private static final Set<String> ALLOWED_MOODS = new HashSet<>(Arrays.asList(
+            "calm", "happy", "sad", "angry", "anxious", "tired"
+    ));
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,24 +32,11 @@ public class StudentRecordServlet extends HttpServlet {
         }
 
         try {
-            List<StudentRecord> records = recordDao.findAll();
+            String mode = normalizeMode(req.getParameter("mode"));
+            List<StudentRecord> records = "random".equals(mode) ? recordDao.findAllRandom() : recordDao.findAllByTimeline();
             req.setAttribute("records", records);
+            req.setAttribute("mode", mode);
             req.setAttribute("username", req.getSession().getAttribute("username"));
-
-            String idText = req.getParameter("editId");
-            if (idText != null && !idText.trim().isEmpty()) {
-                try {
-                    int id = Integer.parseInt(idText);
-                    StudentRecord editRecord = recordDao.findById(id);
-                    if (editRecord != null) {
-                        req.setAttribute("editRecord", editRecord);
-                    } else {
-                        req.setAttribute("flashMessage", "未找到要编辑的记录");
-                    }
-                } catch (NumberFormatException e) {
-                    req.setAttribute("flashMessage", "参数 editId 必须是整数");
-                }
-            }
 
             HttpSession session = req.getSession();
             Object flashMessage = session.getAttribute("flashMessage");
@@ -85,16 +78,16 @@ public class StudentRecordServlet extends HttpServlet {
             if ("add".equals(action)) {
                 StudentRecord record = buildRecord(req);
                 recordDao.insert(record);
-                setFlash(req.getSession(), "新增记录成功");
-            } else if ("update".equals(action)) {
-                StudentRecord record = buildRecord(req);
-                record.setId(parseRequiredInt(req, "id"));
-                recordDao.update(record);
-                setFlash(req.getSession(), "修改记录成功");
+                setFlash(req.getSession(), "纸条投递成功");
             } else if ("delete".equals(action)) {
                 int id = parseRequiredInt(req, "id");
-                recordDao.delete(id);
-                setFlash(req.getSession(), "删除记录成功");
+                String username = currentUsername(req);
+                int affected = recordDao.deleteByIdAndOwner(id, username);
+                if (affected > 0) {
+                    setFlash(req.getSession(), "已撤回你的纸条");
+                } else {
+                    setFlash(req.getSession(), "仅能撤回你自己的纸条，或纸条不存在");
+                }
             } else {
                 setFlash(req.getSession(), "未知操作");
             }
@@ -109,9 +102,21 @@ public class StudentRecordServlet extends HttpServlet {
 
     private StudentRecord buildRecord(HttpServletRequest req) {
         StudentRecord record = new StudentRecord();
-        record.setName(req.getParameter("name"));
-        record.setAge(parseRequiredInt(req, "age"));
-        record.setMajor(req.getParameter("major"));
+        String content = safeTrim(req.getParameter("content"));
+        if (content.isEmpty()) {
+            throw new IllegalArgumentException("纸条内容不能为空");
+        }
+        if (content.length() > 280) {
+            throw new IllegalArgumentException("纸条内容不能超过 280 字");
+        }
+        String mood = safeTrim(req.getParameter("mood"));
+        if (!ALLOWED_MOODS.contains(mood)) {
+            throw new IllegalArgumentException("请选择有效的情绪标签");
+        }
+
+        record.setContent(content);
+        record.setMood(mood);
+        record.setOwnerUsername(currentUsername(req));
         return record;
     }
 
@@ -125,6 +130,10 @@ public class StudentRecordServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("参数 " + field + " 必须是整数");
         }
+    }
+
+    private String normalizeMode(String mode) {
+        return "random".equals(mode) ? "random" : "timeline";
     }
 
     private boolean verifyCsrf(HttpServletRequest req) {
@@ -144,5 +153,14 @@ public class StudentRecordServlet extends HttpServlet {
 
     private void setFlash(HttpSession session, String message) {
         session.setAttribute("flashMessage", message);
+    }
+
+    private String currentUsername(HttpServletRequest req) {
+        Object username = req.getSession().getAttribute("username");
+        return username == null ? "" : username.toString();
+    }
+
+    private String safeTrim(String text) {
+        return text == null ? "" : text.trim();
     }
 }

@@ -26,11 +26,14 @@ public final class DbUtil {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                readConfig("db.url", "DB_URL"),
-                readConfig("db.username", "DB_USERNAME"),
-                readConfig("db.password", "DB_PASSWORD")
-        );
+        String url = readConfig("db.url", "DB_URL");
+        String username = readConfig("db.username", "DB_USERNAME");
+        String password = readConfig("db.password", "DB_PASSWORD");
+
+        if (isBlank(username) && isBlank(password)) {
+            return DriverManager.getConnection(url);
+        }
+        return DriverManager.getConnection(url, username, password);
     }
 
     private static String readConfig(String propertyKey, String envKey) {
@@ -39,5 +42,9 @@ public final class DbUtil {
             return envValue.trim();
         }
         return PROPS.getProperty(propertyKey);
+    }
+
+    private static boolean isBlank(String text) {
+        return text == null || text.trim().isEmpty();
     }
 }

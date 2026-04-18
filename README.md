@@ -1,71 +1,50 @@
-# JAVA WEB 实验：B/S 模式数据库访问
+# 情绪垃圾桶匿名墙（Java Web）
 
-本项目实现了一个基于 **Java Web + Tomcat + MySQL** 的实验示例：
-- 用户表（用户名、密码）登录验证
-- 登录后进入 Web 应用
-- 对 `student_records` 表执行增、删、改、查（CRUD）操作
+这是一个基于 **Java Web + JSP + Servlet + SQLite** 的匿名情绪墙：
+
+- 登录：通过 `users` 用户表进行身份验证
+- 增：发布带情绪标签的“纸条”
+- 查：支持“时间轴”与“随机流”两种查看模式
+- 删：仅允许撤回自己发布的纸条
+- UI：采用 Apple 液态玻璃风格，按情绪字段显示不同背景色
 
 ## 1. 环境准备
 
 - JDK 8+
 - Maven 3.8+
-- MySQL 8+
 - Tomcat 9+
 
-## 2. 数据库安装与配置（MySQL）
+## 2. 数据库初始化（SQLite）
 
-1. 安装并启动 MySQL。
-2. 执行脚本初始化数据库、表和数据：
-   ```sql
-   source /绝对路径/java/sql/schema.sql;
-   ```
-3. 配置数据库连接（优先使用环境变量）：
-   - `DB_URL`
-   - `DB_USERNAME`
-   - `DB_PASSWORD`
-   - `DB_DRIVER`（可选）
-4. 也可直接修改 `src/main/resources/db.properties`（示例值需替换）。
-
-## 3. Java 数据库访问环境配置
-
-项目通过 Maven 引入 JDBC 驱动：
-- `com.mysql:mysql-connector-j:8.4.0`
-
-数据库连接工具类：
-- `src/main/java/com/example/util/DbUtil.java`
-
-## 4. Tomcat 安装与部署
-
-1. 安装 Tomcat 并确认可访问 `http://localhost:8080`。
-2. 在项目根目录打包：
+1. 确保已配置 SQLite JDBC（项目内已通过 Maven 依赖引入）。
+2. 按需修改数据库连接（推荐环境变量覆盖）：
+   - `DB_URL`（示例：`jdbc:sqlite:/tmp/mood-wall.db`）
+   - `DB_DRIVER`（默认：`org.sqlite.JDBC`）
+3. 执行 SQL 脚本初始化表与示例数据：
    ```bash
-   mvn clean package
+   sqlite3 /tmp/mood-wall.db < /绝对路径/java/sql/schema.sql
    ```
-3. 将生成的 `target/java-web-crud.war` 部署到 Tomcat 的 `webapps/` 目录。
-4. 启动 Tomcat。
 
-## 5. 运行与验证
+## 3. 构建与部署
 
-浏览器访问：
+```bash
+mvn clean package
+```
+
+生成 `target/java-web-crud.war`，部署到 Tomcat `webapps/` 后访问：
+
 - `http://localhost:8080/java-web-crud/`
 
-默认登录账号：
+默认账号：
+
 - 用户名：`admin`
 - 密码：`123456`
 
-> 用户密码在数据库中以 PBKDF2 加盐哈希形式存储，不以明文保存。
+## 4. 项目结构
 
-登录后可对学生信息表进行：
-- 新增
-- 查询（列表展示）
-- 修改
-- 删除
-
-## 6. 项目结构
-
-- `src/main/java/com/example/servlet`：登录、退出、CRUD 控制器
-- `src/main/java/com/example/dao`：数据库访问逻辑
-- `src/main/java/com/example/model`：实体类
-- `src/main/java/com/example/util`：数据库连接和密码安全工具
-- `src/main/webapp`：JSP 页面
-- `sql/schema.sql`：数据库脚本
+- `src/main/java/com/example/servlet`：登录、退出、匿名墙控制器
+- `src/main/java/com/example/dao`：用户与纸条数据访问
+- `src/main/java/com/example/model`：纸条模型
+- `src/main/java/com/example/util`：数据库连接与安全工具
+- `src/main/webapp`：登录页与匿名墙页面
+- `sql/schema.sql`：SQLite 初始化脚本

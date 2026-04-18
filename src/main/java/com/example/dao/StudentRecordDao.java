@@ -11,72 +11,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRecordDao {
-    public List<StudentRecord> findAll() throws SQLException {
-        String sql = "SELECT id, name, age, major FROM student_records ORDER BY id";
-        List<StudentRecord> records = new ArrayList<>();
+    public List<StudentRecord> findAllByTimeline() throws SQLException {
+        String sql = "SELECT id, content, mood, owner_username, created_at FROM mood_notes ORDER BY datetime(created_at) DESC, id DESC";
+        List<StudentRecord> notes = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                StudentRecord record = mapRecord(rs);
-                records.add(record);
+                notes.add(mapRecord(rs));
             }
         }
-        return records;
+        return notes;
     }
 
-    public StudentRecord findById(int id) throws SQLException {
-        String sql = "SELECT id, name, age, major FROM student_records WHERE id = ?";
+    public List<StudentRecord> findAllRandom() throws SQLException {
+        String sql = "SELECT id, content, mood, owner_username, created_at FROM mood_notes ORDER BY RANDOM()";
+        List<StudentRecord> notes = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRecord(rs);
-                }
-                return null;
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                notes.add(mapRecord(rs));
             }
         }
+        return notes;
     }
 
     public void insert(StudentRecord record) throws SQLException {
-        String sql = "INSERT INTO student_records(name, age, major) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO mood_notes(content, mood, owner_username) VALUES(?, ?, ?)";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, record.getName());
-            ps.setInt(2, record.getAge());
-            ps.setString(3, record.getMajor());
+            ps.setString(1, record.getContent());
+            ps.setString(2, record.getMood());
+            ps.setString(3, record.getOwnerUsername());
             ps.executeUpdate();
         }
     }
 
-    public void update(StudentRecord record) throws SQLException {
-        String sql = "UPDATE student_records SET name = ?, age = ?, major = ? WHERE id = ?";
-        try (Connection conn = DbUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, record.getName());
-            ps.setInt(2, record.getAge());
-            ps.setString(3, record.getMajor());
-            ps.setInt(4, record.getId());
-            ps.executeUpdate();
-        }
-    }
-
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM student_records WHERE id = ?";
+    public int deleteByIdAndOwner(int id, String ownerUsername) throws SQLException {
+        String sql = "DELETE FROM mood_notes WHERE id = ? AND owner_username = ?";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            ps.setString(2, ownerUsername);
+            return ps.executeUpdate();
         }
     }
 
     private StudentRecord mapRecord(ResultSet rs) throws SQLException {
         StudentRecord record = new StudentRecord();
         record.setId(rs.getInt("id"));
-        record.setName(rs.getString("name"));
-        record.setAge(rs.getInt("age"));
-        record.setMajor(rs.getString("major"));
+        record.setContent(rs.getString("content"));
+        record.setMood(rs.getString("mood"));
+        record.setOwnerUsername(rs.getString("owner_username"));
+        record.setCreatedAt(rs.getString("created_at"));
         return record;
     }
 }
