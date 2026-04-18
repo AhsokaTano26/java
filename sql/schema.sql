@@ -15,6 +15,12 @@ CREATE TABLE IF NOT EXISTS mood_notes (
     FOREIGN KEY (owner_username) REFERENCES users(username) ON DELETE CASCADE
 );
 
+CREATE INDEX IF NOT EXISTS idx_mood_notes_created_at_id
+ON mood_notes(created_at DESC, id DESC);
+
+CREATE INDEX IF NOT EXISTS idx_mood_notes_owner_username
+ON mood_notes(owner_username);
+
 -- 默认管理员密码是 123456（已使用 PBKDF2 加盐哈希存储）
 INSERT OR IGNORE INTO users(username, password) VALUES
 ('admin', '120000$jyxNgKGyPE1eb3CBkqO0xQ==$myTuCZGvDAFpSSipH7vGFSjoT/30MxUQNvVybN3A7I4=');
