@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class UserDao {
     private static final String LOGIN_SQL = "SELECT password FROM users WHERE username = ?";
+    private static final String REGISTER_SQL = "INSERT INTO users(username, password) VALUES(?, ?)";
 
     public boolean authenticate(String username, String password) throws SQLException {
         try (Connection conn = DbUtil.getConnection();
@@ -23,5 +24,26 @@ public class UserDao {
                 return PasswordUtil.verifyPassword(password, storedPassword);
             }
         }
+    }
+
+    public boolean register(String username, String rawPassword) throws SQLException {
+        String hashedPassword = PasswordUtil.hashPassword(rawPassword);
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(REGISTER_SQL)) {
+            ps.setString(1, username);
+            ps.setString(2, hashedPassword);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            if (isUniqueConstraintViolation(e)) {
+                return false;
+            }
+            throw e;
+        }
+    }
+
+    private boolean isUniqueConstraintViolation(SQLException e) {
+        return e.getErrorCode() == 19
+                || (e.getMessage() != null && e.getMessage().contains("UNIQUE constraint failed"));
     }
 }
