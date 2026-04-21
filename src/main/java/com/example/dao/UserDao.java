@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    // SQLite: SQLITE_CONSTRAINT
+    // SQLite SQLITE_CONSTRAINT error code (19) indicates constraint violations, including UNIQUE conflicts.
     private static final int SQLITE_CONSTRAINT = 19;
     private static final String UNIQUE_CONSTRAINT_MESSAGE = "UNIQUE constraint failed";
     private static final String LOGIN_SQL = "SELECT password FROM users WHERE username = ?";
