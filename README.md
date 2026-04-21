@@ -22,7 +22,7 @@
    - `DB_DRIVER`（默认：`org.sqlite.JDBC`）
 3. 执行 SQL 脚本初始化表与示例数据：
    ```bash
-   sqlite3 /tmp/mood-wall.db < /绝对路径/java/sql/schema.sql
+   sqlite3 data/mood-wall.db < sql/schema.sql
    ```
 
 ## 3. 构建与部署
