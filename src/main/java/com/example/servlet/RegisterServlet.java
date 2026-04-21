@@ -28,9 +28,9 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String confirmPassword = req.getParameter("confirmPassword");
+        String username = trim(req.getParameter("username"));
+        String password = trim(req.getParameter("password"));
+        String confirmPassword = trim(req.getParameter("confirmPassword"));
 
         if (isBlank(username) || isBlank(password) || isBlank(confirmPassword)) {
             req.setAttribute("error", "用户名和密码不能为空");
@@ -38,7 +38,6 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        username = username.trim();
         if (!password.equals(confirmPassword)) {
             req.setAttribute("error", "两次输入的密码不一致");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
@@ -46,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            boolean created = userDao.register(username, password.trim());
+            boolean created = userDao.register(username, password);
             if (!created) {
                 req.setAttribute("error", "用户名已存在");
                 req.getRequestDispatcher("/register.jsp").forward(req, resp);
@@ -60,5 +59,9 @@ public class RegisterServlet extends HttpServlet {
 
     private boolean isBlank(String text) {
         return text == null || text.trim().isEmpty();
+    }
+
+    private String trim(String text) {
+        return text == null ? null : text.trim();
     }
 }
