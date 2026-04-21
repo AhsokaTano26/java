@@ -175,6 +175,7 @@
         try {
             moodQuery = "&mood=" + URLEncoder.encode(moodFilter, "UTF-8");
         } catch (Exception ignored) {
+            // UTF-8 is always supported; fallback to no filter query if unexpected errors happen.
             moodQuery = "";
         }
     }
