@@ -164,6 +164,8 @@
     String csrfToken = (String) request.getAttribute("csrfToken");
     String username = (String) request.getAttribute("username");
     String mode = (String) request.getAttribute("mode");
+    String moodFilter = (String) request.getAttribute("moodFilter");
+    String moodQuery = (moodFilter != null && !moodFilter.isEmpty()) ? "&mood=" + moodFilter : "";
     List<StudentRecord> records = (List<StudentRecord>) request.getAttribute("records");
 %>
     <div class="hero glass">
@@ -172,8 +174,8 @@
         <div class="top-bar">
             <p class="subtle">已登录：<strong><%= HtmlEscapeUtil.escape(username) %></strong></p>
             <div class="actions">
-                <a href="<%= request.getContextPath() %>/records?mode=timeline">时间轴</a>
-                <a href="<%= request.getContextPath() %>/records?mode=random">随机流</a>
+                <a href="<%= request.getContextPath() %>/records?mode=timeline<%= moodQuery %>">时间轴</a>
+                <a href="<%= request.getContextPath() %>/records?mode=random<%= moodQuery %>">随机流</a>
                 <a href="<%= request.getContextPath() %>/logout">退出</a>
             </div>
         </div>
@@ -216,6 +218,26 @@
         <p class="subtle" style="margin-top:0;">
             当前查看：<strong><%= "random".equals(mode) ? "随机流" : "时间轴" %></strong>
         </p>
+        <form method="get" action="<%= request.getContextPath() %>/records" style="margin: 8px 0 14px;">
+            <input type="hidden" name="mode" value="<%= HtmlEscapeUtil.escape(mode) %>" />
+            <label for="filterMood">按心情筛选</label>
+            <div class="row">
+                <div>
+                    <select id="filterMood" name="mood">
+                        <option value="" <%= (moodFilter == null || moodFilter.isEmpty()) ? "selected" : "" %>>全部</option>
+                        <option value="calm" <%= "calm".equals(moodFilter) ? "selected" : "" %>>平静</option>
+                        <option value="happy" <%= "happy".equals(moodFilter) ? "selected" : "" %>>开心</option>
+                        <option value="sad" <%= "sad".equals(moodFilter) ? "selected" : "" %>>低落</option>
+                        <option value="angry" <%= "angry".equals(moodFilter) ? "selected" : "" %>>生气</option>
+                        <option value="anxious" <%= "anxious".equals(moodFilter) ? "selected" : "" %>>焦虑</option>
+                        <option value="tired" <%= "tired".equals(moodFilter) ? "selected" : "" %>>疲惫</option>
+                    </select>
+                </div>
+                <div style="display:flex;align-items:flex-end;">
+                    <button type="submit">应用筛选</button>
+                </div>
+            </div>
+        </form>
         <div class="note-list">
             <%
                 if (records != null && !records.isEmpty()) {

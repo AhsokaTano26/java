@@ -33,9 +33,16 @@ public class StudentRecordServlet extends HttpServlet {
 
         try {
             String mode = normalizeMode(req.getParameter("mode"));
-            List<StudentRecord> records = "random".equals(mode) ? recordDao.findAllRandom() : recordDao.findAllByTimeline();
+            String moodFilter = normalizeMoodFilter(req.getParameter("mood"));
+            List<StudentRecord> records;
+            if (moodFilter.isEmpty()) {
+                records = "random".equals(mode) ? recordDao.findAllRandom() : recordDao.findAllByTimeline();
+            } else {
+                records = "random".equals(mode) ? recordDao.findByMoodRandom(moodFilter) : recordDao.findByMoodTimeline(moodFilter);
+            }
             req.setAttribute("records", records);
             req.setAttribute("mode", mode);
+            req.setAttribute("moodFilter", moodFilter);
             req.setAttribute("username", req.getSession().getAttribute("username"));
 
             HttpSession session = req.getSession();
@@ -134,6 +141,14 @@ public class StudentRecordServlet extends HttpServlet {
 
     private String normalizeMode(String mode) {
         return "random".equals(mode) ? "random" : "timeline";
+    }
+
+    private String normalizeMoodFilter(String mood) {
+        String value = safeTrim(mood);
+        if (value.isEmpty()) {
+            return "";
+        }
+        return ALLOWED_MOODS.contains(value) ? value : "";
     }
 
     private boolean verifyCsrf(HttpServletRequest req) {

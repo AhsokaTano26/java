@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRecordDao {
+    private static final String BASE_SELECT_SQL = "SELECT id, content, mood, owner_username, created_at FROM mood_notes";
+
     public List<StudentRecord> findAllByTimeline() throws SQLException {
-        String sql = "SELECT id, content, mood, owner_username, created_at FROM mood_notes ORDER BY datetime(created_at) DESC, id DESC";
+        String sql = BASE_SELECT_SQL + " ORDER BY datetime(created_at) DESC, id DESC";
         List<StudentRecord> notes = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -25,7 +27,7 @@ public class StudentRecordDao {
     }
 
     public List<StudentRecord> findAllRandom() throws SQLException {
-        String sql = "SELECT id, content, mood, owner_username, created_at FROM mood_notes ORDER BY RANDOM()";
+        String sql = BASE_SELECT_SQL + " ORDER BY RANDOM()";
         List<StudentRecord> notes = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -35,6 +37,16 @@ public class StudentRecordDao {
             }
         }
         return notes;
+    }
+
+    public List<StudentRecord> findByMoodTimeline(String mood) throws SQLException {
+        String sql = BASE_SELECT_SQL + " WHERE mood = ? ORDER BY datetime(created_at) DESC, id DESC";
+        return queryByMood(sql, mood);
+    }
+
+    public List<StudentRecord> findByMoodRandom(String mood) throws SQLException {
+        String sql = BASE_SELECT_SQL + " WHERE mood = ? ORDER BY RANDOM()";
+        return queryByMood(sql, mood);
     }
 
     public void insert(StudentRecord record) throws SQLException {
@@ -66,5 +78,19 @@ public class StudentRecordDao {
         record.setOwnerUsername(rs.getString("owner_username"));
         record.setCreatedAt(rs.getString("created_at"));
         return record;
+    }
+
+    private List<StudentRecord> queryByMood(String sql, String mood) throws SQLException {
+        List<StudentRecord> notes = new ArrayList<>();
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, mood);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notes.add(mapRecord(rs));
+                }
+            }
+        }
+        return notes;
     }
 }
