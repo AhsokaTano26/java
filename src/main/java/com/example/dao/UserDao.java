@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
+    // SQLite: SQLITE_CONSTRAINT
     private static final int SQLITE_CONSTRAINT = 19;
+    private static final String UNIQUE_CONSTRAINT_MESSAGE = "UNIQUE constraint failed";
     private static final String LOGIN_SQL = "SELECT password FROM users WHERE username = ?";
     private static final String REGISTER_SQL = "INSERT INTO users(username, password) VALUES(?, ?)";
 
@@ -45,6 +47,6 @@ public class UserDao {
 
     private boolean isUniqueConstraintViolation(SQLException e) {
         return e.getErrorCode() == SQLITE_CONSTRAINT
-                || (e.getMessage() != null && e.getMessage().contains("UNIQUE constraint failed"));
+                || (e.getMessage() != null && e.getMessage().contains(UNIQUE_CONSTRAINT_MESSAGE));
     }
 }
