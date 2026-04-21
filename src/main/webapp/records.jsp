@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page import="com.example.model.StudentRecord" %>
 <%@ page import="com.example.util.HtmlEscapeUtil" %>
 <!DOCTYPE html>
@@ -79,6 +80,10 @@
         .panel {
             padding: 16px;
             margin-bottom: 16px;
+        }
+
+        .filter-form {
+            margin: 8px 0 14px;
         }
 
         textarea, select {
@@ -165,7 +170,14 @@
     String username = (String) request.getAttribute("username");
     String mode = (String) request.getAttribute("mode");
     String moodFilter = (String) request.getAttribute("moodFilter");
-    String moodQuery = (moodFilter != null && !moodFilter.isEmpty()) ? "&mood=" + moodFilter : "";
+    String moodQuery = "";
+    if (moodFilter != null && !moodFilter.isEmpty()) {
+        try {
+            moodQuery = "&mood=" + URLEncoder.encode(moodFilter, "UTF-8");
+        } catch (Exception ignored) {
+            moodQuery = "";
+        }
+    }
     List<StudentRecord> records = (List<StudentRecord>) request.getAttribute("records");
 %>
     <div class="hero glass">
@@ -218,7 +230,7 @@
         <p class="subtle" style="margin-top:0;">
             当前查看：<strong><%= "random".equals(mode) ? "随机流" : "时间轴" %></strong>
         </p>
-        <form method="get" action="<%= request.getContextPath() %>/records" style="margin: 8px 0 14px;">
+        <form method="get" action="<%= request.getContextPath() %>/records" class="filter-form">
             <input type="hidden" name="mode" value="<%= HtmlEscapeUtil.escape(mode) %>" />
             <label for="filterMood">按心情筛选</label>
             <div class="row">
