@@ -1,0 +1,66 @@
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+21-Apr-2026 17:12:40.938 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log Server.服务器版本: Apache Tomcat/9.0.117
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 服务器构建:        Mar 30 2026 18:21:16 UTC
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 服务器版本号:      9.0.117.0
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 操作系统名称:      Mac OS X
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log OS.版本:           26.3.1
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 架构:              aarch64
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log Java 环境变量:     /opt/homebrew/Cellar/openjdk@21/21.0.10/libexec/openjdk.jdk/Contents/Home
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log Java虚拟机版本:    21.0.10
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM.供应商:        Homebrew
+21-Apr-2026 17:12:40.940 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:     /Users/tano/Downloads/apache-tomcat-9.0.117
+21-Apr-2026 17:12:40.941 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:     /Users/tano/Downloads/apache-tomcat-9.0.117
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.lang=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.io=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.util=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Djava.util.logging.config.file=/Users/tano/Downloads/apache-tomcat-9.0.117/conf/logging.properties
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Djdk.tls.ephemeralDHKeySize=2048
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Dsun.io.useCanonCaches=false
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Dignore.endorsed.dirs=
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Dcatalina.base=/Users/tano/Downloads/apache-tomcat-9.0.117
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Dcatalina.home=/Users/tano/Downloads/apache-tomcat-9.0.117
+21-Apr-2026 17:12:40.947 信息 [main] org.apache.catalina.startup.VersionLoggerListener.log 命令行参数：       -Djava.io.tmpdir=/Users/tano/Downloads/apache-tomcat-9.0.117/temp
+21-Apr-2026 17:12:40.951 信息 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent 在java.library.path:[/Users/tano/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]上找不到基于APR的Apache Tomcat本机库，该库允许在生产环境中获得最佳性能
+21-Apr-2026 17:12:41.071 信息 [main] org.apache.coyote.AbstractProtocol.init 初始化协议处理器 ["http-nio-8080"]
+21-Apr-2026 17:12:41.084 信息 [main] org.apache.catalina.startup.Catalina.load 服务器在[223]毫秒内初始化
+21-Apr-2026 17:12:41.099 信息 [main] org.apache.catalina.core.StandardService.startInternal 正在启动服务[Catalina]
+21-Apr-2026 17:12:41.099 信息 [main] org.apache.catalina.core.StandardEngine.startInternal 正在启动 Servlet 引擎：[Apache Tomcat/9.0.117]
+21-Apr-2026 17:12:41.104 信息 [main] org.apache.catalina.startup.HostConfig.deployWAR 正在部署web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]
+21-Apr-2026 17:12:41.246 信息 [main] org.apache.jasper.servlet.TldScanner.scanJars 至少有一个JAR被扫描用于TLD但尚未包含TLD。 为此记录器启用调试日志记录，以获取已扫描但未在其中找到TLD的完整JAR列表。 在扫描期间跳过不需要的JAR可以缩短启动时间和JSP编译时间。
+21-Apr-2026 17:12:41.258 信息 [main] org.apache.catalina.startup.HostConfig.deployWAR web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]的部署已在[153]ms内完成
+21-Apr-2026 17:12:41.258 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory 把web 应用程序部署到目录 [/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/docs]
+21-Apr-2026 17:12:41.267 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory Web应用程序目录[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/docs]的部署已在[9]毫秒内完成
+21-Apr-2026 17:12:41.267 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory 把web 应用程序部署到目录 [/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/manager]
+21-Apr-2026 17:12:41.278 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory Web应用程序目录[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/manager]的部署已在[11]毫秒内完成
+21-Apr-2026 17:12:41.278 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory 把web 应用程序部署到目录 [/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/examples]
+21-Apr-2026 17:12:41.338 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory Web应用程序目录[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/examples]的部署已在[59]毫秒内完成
+21-Apr-2026 17:12:41.338 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory 把web 应用程序部署到目录 [/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/ROOT]
+21-Apr-2026 17:12:41.343 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory Web应用程序目录[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/ROOT]的部署已在[5]毫秒内完成
+21-Apr-2026 17:12:41.343 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory 把web 应用程序部署到目录 [/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/host-manager]
+21-Apr-2026 17:12:41.349 信息 [main] org.apache.catalina.startup.HostConfig.deployDirectory Web应用程序目录[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/host-manager]的部署已在[6]毫秒内完成
+21-Apr-2026 17:12:41.350 信息 [main] org.apache.coyote.AbstractProtocol.start 开始协议处理句柄["http-nio-8080"]
+21-Apr-2026 17:12:41.355 信息 [main] org.apache.catalina.startup.Catalina.start [270]毫秒后服务器启动
+22-Apr-2026 11:31:57.961 信息 [Catalina-utility-2] org.apache.catalina.startup.HostConfig.undeploy 正在取消部署上下文[/java-web-crud]
+22-Apr-2026 11:31:58.008 警告 [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc Web应用程序 [java-web-crud] 注册了JDBC驱动程序 [org.sqlite.JDBC]，但在Web应用程序停止时无法注销它。 为防止内存泄漏，JDBC驱动程序已被强制取消注册。
+22-Apr-2026 11:31:58.030 信息 [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployWAR 正在部署web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]
+22-Apr-2026 11:31:58.103 信息 [Catalina-utility-2] org.apache.jasper.servlet.TldScanner.scanJars 至少有一个JAR被扫描用于TLD但尚未包含TLD。 为此记录器启用调试日志记录，以获取已扫描但未在其中找到TLD的完整JAR列表。 在扫描期间跳过不需要的JAR可以缩短启动时间和JSP编译时间。
+22-Apr-2026 11:31:58.105 信息 [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployWAR web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]的部署已在[75]ms内完成
+22-Apr-2026 11:57:28.963 信息 [Catalina-utility-1] org.apache.catalina.startup.HostConfig.undeploy 正在取消部署上下文[/java-web-crud]
+22-Apr-2026 11:57:28.987 警告 [Catalina-utility-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc Web应用程序 [java-web-crud] 注册了JDBC驱动程序 [org.sqlite.JDBC]，但在Web应用程序停止时无法注销它。 为防止内存泄漏，JDBC驱动程序已被强制取消注册。
+22-Apr-2026 11:57:28.994 信息 [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployWAR 正在部署web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]
+22-Apr-2026 11:57:29.040 信息 [Catalina-utility-1] org.apache.jasper.servlet.TldScanner.scanJars 至少有一个JAR被扫描用于TLD但尚未包含TLD。 为此记录器启用调试日志记录，以获取已扫描但未在其中找到TLD的完整JAR列表。 在扫描期间跳过不需要的JAR可以缩短启动时间和JSP编译时间。
+22-Apr-2026 11:57:29.041 信息 [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployWAR web应用程序存档文件[/Users/tano/Downloads/apache-tomcat-9.0.117/webapps/java-web-crud.war]的部署已在[47]ms内完成
+22-Apr-2026 14:14:35.946 信息 [main] org.apache.catalina.core.StandardServer.await 通过关闭端口接收到有效的关闭命令。正在停止服务器实例。
+22-Apr-2026 14:14:35.947 信息 [main] org.apache.coyote.AbstractProtocol.pause 暂停ProtocolHandler["http-nio-8080"]
+22-Apr-2026 14:14:36.961 信息 [main] org.apache.catalina.core.StandardService.stopInternal 正在停止服务[Catalina]
+22-Apr-2026 14:14:36.972 警告 [main] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc Web应用程序 [java-web-crud] 注册了JDBC驱动程序 [org.sqlite.JDBC]，但在Web应用程序停止时无法注销它。 为防止内存泄漏，JDBC驱动程序已被强制取消注册。
+22-Apr-2026 14:14:36.979 信息 [main] org.apache.coyote.AbstractProtocol.stop 正在停止ProtocolHandler ["http-nio-8080"]
+22-Apr-2026 14:14:37.586 警告 [main] org.apache.tomcat.util.net.Acceptor.stopMillis 接收器线程[http-nio-8080-Acceptor]未能干净的停止
+22-Apr-2026 14:14:37.591 信息 [main] org.apache.coyote.AbstractProtocol.destroy 正在销毁协议处理器 ["http-nio-8080"]

@@ -1,0 +1,16 @@
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:12:49 +0800] "GET /java-web-crud/ HTTP/1.1" 200 2307
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:12:49 +0800] "GET /java-web-crud/ HTTP/1.1" 200 2307
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:12:54 +0800] "POST /java-web-crud/login HTTP/1.1" 500 2194
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:13:50 +0800] "POST /java-web-crud/login HTTP/1.1" 500 2194
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:14:34 +0800] "POST /java-web-crud/login HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:14:36 +0800] "GET /java-web-crud/records HTTP/1.1" 200 9283
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:50 +0800] "POST /java-web-crud/records HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:50 +0800] "GET /java-web-crud/records HTTP/1.1" 200 10152
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:54 +0800] "POST /java-web-crud/records HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:54 +0800] "GET /java-web-crud/records HTTP/1.1" 200 9339
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:56 +0800] "GET /java-web-crud/records?mode=timeline HTTP/1.1" 200 9283
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:57 +0800] "GET /java-web-crud/records?mode=random HTTP/1.1" 200 9283
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:57 +0800] "GET /java-web-crud/records?mode=random HTTP/1.1" 200 9283
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:58 +0800] "GET /java-web-crud/records?mode=random HTTP/1.1" 200 9283
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:59 +0800] "GET /java-web-crud/logout HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [21/Apr/2026:17:15:59 +0800] "GET /java-web-crud/login HTTP/1.1" 200 2307
