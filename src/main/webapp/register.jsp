@@ -4,7 +4,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>登录 - 情绪垃圾桶</title>
+    <title>注册 - 情绪垃圾桶</title>
     <style>
         body {
             margin: 0;
@@ -55,48 +55,35 @@
             background: rgba(254, 202, 202, 0.5);
             border: 1px solid rgba(239, 68, 68, 0.35);
         }
-        .success {
-            margin-top: 10px;
-            border-radius: 12px;
-            padding: 10px 12px;
-            color: #166534;
-            background: rgba(187, 247, 208, 0.5);
-            border: 1px solid rgba(34, 197, 94, 0.35);
-        }
-        .register-link {
+        .login-link {
             margin-top: 12px;
             text-align: center;
         }
-        .register-link a {
+        .login-link a {
             color: #1d4ed8;
             text-decoration: none;
         }
-        .register-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
 <div class="card">
-    <h2>情绪垃圾桶</h2>
-    <p>登录后即可匿名投递心情纸条。</p>
-    <form method="post" action="<%= request.getContextPath() %>/login">
+    <h2>创建账号</h2>
+    <p>注册后即可登录并投递心情纸条。</p>
+    <form method="post" action="<%= request.getContextPath() %>/register">
         <label>用户名</label>
         <input type="text" name="username" required />
         <label>密码</label>
         <input type="password" name="password" required />
-        <button type="submit">进入匿名墙</button>
+        <label>确认密码</label>
+        <input type="password" name="confirmPassword" required />
+        <button type="submit">注册</button>
     </form>
-    <div class="register-link">
-        还没有账号？<a href="<%= request.getContextPath() %>/register">去注册</a>
+    <div class="login-link">
+        已有账号？<a href="<%= request.getContextPath() %>/login">去登录</a>
     </div>
-    <%
-        if ("1".equals(request.getParameter("registered"))) {
-    %>
-    <div class="success">注册成功，请登录。</div>
-    <%
-        }
-    %>
     <%
         Object error = request.getAttribute("error");
         if (error != null) {
